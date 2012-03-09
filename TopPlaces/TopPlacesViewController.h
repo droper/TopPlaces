@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TopPlacesViewController : UIViewController
+@interface TopPlacesViewController : UITableViewController
+
+@property (nonatomic, strong) NSArray *photos; // of Flickr photo dictionaries
 
 @end

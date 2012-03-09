@@ -7,58 +7,119 @@
 //
 
 #import "TopPlacesViewController.h"
+#import "FlickrFetcher.h"
+
+@interface TopPlacesViewController()
+// keys: photographer NSString, values: NSArray of photo NSDictionary
+@property (nonatomic, strong) NSDictionary *photosByPhotographer;
+@end
+
 
 @implementation TopPlacesViewController
 
-- (void)didReceiveMemoryWarning
+@synthesize photos = _photos;
+@synthesize photosByPhotographer = _photosByPhotographer;
+
+
+- (void)updatePhotosByPhotographer
 {
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+    NSMutableDictionary *photosByPhotographer = [NSMutableDictionary dictionary];
+    for (NSDictionary *photo in self.photos) {
+        NSString *photographer = [photo objectForKey:FLICKR_PHOTO_OWNER];
+        NSMutableArray *photos = [photosByPhotographer objectForKey:photographer];
+        if (!photos) {
+            photos = [NSMutableArray array];
+            [photosByPhotographer setObject:photos forKey:photographer];
+        }
+        [photos addObject:photo];
+    }
+    self.photosByPhotographer = photosByPhotographer;
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
+- (void)setPhotos:(NSArray *)photos
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    if (_photos != photos) {
+        _photos = photos;
+        // Model changed, so update our View (the table)
+        [self updatePhotosByPhotographer];
+        [self.tableView reloadData];
+    }
 }
 
-- (void)viewDidUnload
+
+- (IBAction)refresh:(id)sender
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    // might want to use introspection to be sure sender is UIBarButtonItem
+    // (if not, it can skip the spinner)
+    // that way this method can be a little more generic
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
+    dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
+    dispatch_async(downloadQueue, ^{
+        NSArray *photos = [FlickrFetcher recentGeoreferencedPhotos];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.navigationItem.rightBarButtonItem = sender;
+            self.photos = photos;
+        });
+    });
+    dispatch_release(downloadQueue);
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
+
+    return YES;
 }
+
+
+#pragma mark - UITableViewDataSource
+
+
+- (NSString *)photographerForSection:(NSInteger)section
+{
+    return [[self.photosByPhotographer allKeys] objectAtIndex:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [self photographerForSection:section];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [self.photosByPhotographer count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // return [self.photos count];
+    NSString *photographer = [self photographerForSection:section];
+    NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
+    return [photosByPhotographer count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Flickr Photo";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Configure the cell...
+    // NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
+    NSString *photographer = [self photographerForSection:indexPath.section];
+    NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
+    NSDictionary *photo = [photosByPhotographer objectAtIndex:indexPath.row];
+    cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_TITLE];
+    cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_OWNER];
+    
+    return cell;
+}
+
 
 @end
