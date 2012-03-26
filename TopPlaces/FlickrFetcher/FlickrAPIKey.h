@@ -9,12 +9,3 @@
 //
 
 #define FlickrAPIKey @"9fc65013af08dbc111271141a82ba076"
-
-// esto es un test
-
-
-// muy test
-
-
-
-// demasiado test

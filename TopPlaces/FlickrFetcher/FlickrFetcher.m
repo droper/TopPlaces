@@ -34,6 +34,7 @@
 + (NSArray *)topPlaces
 {
     NSString *request = [NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.places.getTopPlacesList&place_type_id=7"];
+    NSLog(@"Arrreglo de topPlaces %@", [[self executeFlickrFetch:request] valueForKeyPath:@"places.place"]);
     return [[self executeFlickrFetch:request] valueForKeyPath:@"places.place"];
 }
 

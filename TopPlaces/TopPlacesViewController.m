@@ -10,39 +10,44 @@
 #import "FlickrFetcher.h"
 
 @interface TopPlacesViewController()
-// keys: photographer NSString, values: NSArray of photo NSDictionary
-@property (nonatomic, strong) NSDictionary *photosByPhotographer;
+// keys: placegrapher NSString, values: NSArray of place NSDictionary
+@property (nonatomic, strong) NSMutableArray *placesTitles;
 @end
 
 
 @implementation TopPlacesViewController
 
-@synthesize photos = _photos;
-@synthesize photosByPhotographer = _photosByPhotographer;
+@synthesize places = _places;
+@synthesize placesTitles = _placesTitles;
 
 //cambio para probar el commit
 
-- (void)updatePhotosByPhotographer
+
+- (void)updatePlacesTitles
 {
-    NSMutableDictionary *photosByPhotographer = [NSMutableDictionary dictionary];
-    for (NSDictionary *photo in self.photos) {
-        NSString *photographer = [photo objectForKey:FLICKR_PHOTO_OWNER];
-        NSMutableArray *photos = [photosByPhotographer objectForKey:photographer];
-        if (!photos) {
-            photos = [NSMutableArray array];
-            [photosByPhotographer setObject:photos forKey:photographer];
-        }
-        [photos addObject:photo];
+    /*NSMutableArray *placesTitles = [[NSMutableArray alloc] init];
+    for (NSDictionary *place in self.places) {
+        NSString *placename = [place objectForKey:FLICKR_PLACE_NAME];
+        [placesTitles addObject:placename];
     }
-    self.photosByPhotographer = photosByPhotographer;
+    self.placesTitles = placesTitles;
+    */
+    
+    //NSMutableDictionary *place = [NSMutableDictionary dictionary];
+    NSMutableArray *placest = [[NSMutableArray alloc] init];
+    for (NSDictionary *place in self.places) {
+        [placest addObject:place];
+    }
+    self.places = placest;
+    
 }
 
-- (void)setPhotos:(NSArray *)photos
+- (void)setPlaces:(NSArray *)places
 {
-    if (_photos != photos) {
-        _photos = photos;
+    if (_places != places) {
+        _places = places;
         // Model changed, so update our View (the table)
-        [self updatePhotosByPhotographer];
+        //[self updatePlacesTitles];
         [self.tableView reloadData];
     }
 }
@@ -55,14 +60,14 @@
     // that way this method can be a little more generic
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [spinner startAnimating];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("flickr downloader", NULL);
     dispatch_async(downloadQueue, ^{
-        NSArray *photos = [FlickrFetcher topPlaces];
+        NSArray *places = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.navigationItem.rightBarButtonItem = sender;
-            self.photos = photos;
+            self.navigationItem.leftBarButtonItem = sender;
+            self.places = places;
         });
     });
     dispatch_release(downloadQueue);
@@ -79,32 +84,32 @@
 #pragma mark - UITableViewDataSource
 
 
-- (NSString *)photographerForSection:(NSInteger)section
+/*- (NSString *)placegrapherForSection:(NSInteger)section
 {
-    return [[self.photosByPhotographer allKeys] objectAtIndex:section];
-}
+    return [[self.placesByplacegrapher allKeys] objectAtIndex:section];
+}*/
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+/*- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [self photographerForSection:section];
-}
+    return [self placegrapherForSection:section];
+}*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.photosByPhotographer count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // return [self.photos count];
-    NSString *photographer = [self photographerForSection:section];
-    NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    return [photosByPhotographer count];
+    // return [self.places count];
+    //NSString *placegrapher = [self placegrapherForSection:section];
+    //NSArray *placesByplacegrapher = [self.placesByplacegrapher objectForKey:placegrapher];
+    return [self.places count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Flickr Photo";
+    static NSString *CellIdentifier = @"Flickr place";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -112,12 +117,16 @@
     }
     
     // Configure the cell...
-    // NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
-    NSString *photographer = [self photographerForSection:indexPath.section];
-    NSArray *photosByPhotographer = [self.photosByPhotographer objectForKey:photographer];
-    NSDictionary *photo = [photosByPhotographer objectAtIndex:indexPath.row];
-    cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_TITLE];
-    cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_OWNER];
+    // NSDictionary *place = [self.places objectAtIndex:indexPath.row];
+    //NSString *placegrapher = [self placegrapherForSection:indexPath.section];
+    //NSArray *placesByplacegrapher = [self.placesByplacegrapher objectForKey:placegrapher];
+   // NSDictionary *place = [placesByplacegrapher objectAtIndex:indexPath.row];
+    
+    //cell.detailTextLabel.text = [place objectForKey:FLICKR_PHOTO_OWNER];
+    
+    NSDictionary *place = [self.places objectAtIndex:indexPath.row];
+    cell.textLabel.text = [place objectForKey:FLICKR_PLACE_NAME];
+    cell.detailTextLabel.text = [place objectForKey:FLICKR_TIMEZONE];
     
     return cell;
 }

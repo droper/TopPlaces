@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F8C9E0315211C8D00D73418 /* RecentPlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F8C9E0215211C8D00D73418 /* RecentPlacesViewController.m */; };
 		2F8D203115091C1300B1FA35 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8D203015091C1300B1FA35 /* UIKit.framework */; };
 		2F8D203315091C1300B1FA35 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8D203215091C1300B1FA35 /* Foundation.framework */; };
 		2F8D203515091C1300B1FA35 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F8D203415091C1300B1FA35 /* CoreGraphics.framework */; };
@@ -21,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F8C9E0115211C8D00D73418 /* RecentPlacesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentPlacesViewController.h; sourceTree = "<group>"; };
+		2F8C9E0215211C8D00D73418 /* RecentPlacesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentPlacesViewController.m; sourceTree = "<group>"; };
 		2F8D202C15091C1300B1FA35 /* TopPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8D203015091C1300B1FA35 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2F8D203215091C1300B1FA35 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,6 +96,8 @@
 				EB7DCE7E1515DC9800798EB3 /* RootViewController.h */,
 				EB7DCE7F1515DC9800798EB3 /* RootViewController.m */,
 				2F8D204815091C1300B1FA35 /* TopPlacesViewController.h */,
+				2F8C9E0115211C8D00D73418 /* RecentPlacesViewController.h */,
+				2F8C9E0215211C8D00D73418 /* RecentPlacesViewController.m */,
 				2F8D204915091C1300B1FA35 /* TopPlacesViewController.m */,
 				2F8D203715091C1300B1FA35 /* Supporting Files */,
 			);
@@ -181,6 +186,7 @@
 				2F8D204A15091C1300B1FA35 /* TopPlacesViewController.m in Sources */,
 				2F8D2068150A82CD00B1FA35 /* FlickrFetcher.m in Sources */,
 				EB7DCE811515DC9800798EB3 /* RootViewController.m in Sources */,
+				2F8C9E0315211C8D00D73418 /* RecentPlacesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
