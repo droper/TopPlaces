@@ -124,10 +124,49 @@
     
     //cell.detailTextLabel.text = [place objectForKey:FLICKR_PHOTO_OWNER];
     
-    NSDictionary *place = [self.places objectAtIndex:indexPath.row];
-    cell.textLabel.text = [place objectForKey:FLICKR_PLACE_NAME];
-    cell.detailTextLabel.text = [place objectForKey:FLICKR_TIMEZONE];
     
+    NSDictionary *place = [self.places objectAtIndex:indexPath.row];
+    //cell.textLabel.text = [place objectForKey:FLICKR_PLACE_NAME];
+    
+
+    
+    // Obtenemos la ciudad
+    NSString *city = @"";
+    
+    NSString *placename = @"";
+        
+    placename = [place objectForKey:FLICKR_PLACE_NAME];
+    
+    NSRange endCity = [placename rangeOfString:@","];
+    
+    city = [placename substringWithRange:NSMakeRange(0,endCity.location)];
+    
+    NSLog(@"endcityu %i",endCity.location);
+    
+    cell.textLabel.text = city;
+    
+    //Obtenemos la region y pais
+    
+    NSString *region = [placename substringWithRange:NSMakeRange(endCity.location + 2, [placename length]- (endCity.location + 2))];
+    
+    //cell.textLabel.text = [place objectForKey:FLICKR_PLACE_NAME];
+    //cell.detailTextLabel.text = [place objectForKey:FLICKR_TIMEZONE];
+    cell.detailTextLabel.text = region;
+
+    /*
+      
+    NSString aString = @"";
+    NSSrting original = @"";
+    
+    [aString substringWithRange:NSMakeRange(13, 10)] 
+    
+    NSRange startRange = [aString rangeOfString:@","];
+    NSRange endRange = [original rangeOfString:@"1"];
+    
+    NSRange searchRange = NSMakeRange(startRange.location , endRange.location);
+    [aString substringWithRange:searchRange] 
+    */
+      
     return cell;
 }
 

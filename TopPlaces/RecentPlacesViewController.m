@@ -61,7 +61,7 @@
     dispatch_async(downloadQueue, ^{
         NSArray *photos = [FlickrFetcher recentGeoreferencedPhotos];
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.navigationItem.rightBarButtonItem = sender;
+            self.navigationItem.leftBarButtonItem = sender;
             self.photos = photos;
         });
     });
