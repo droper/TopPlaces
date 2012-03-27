@@ -67,7 +67,7 @@
         NSArray *places = [FlickrFetcher topPlaces];
         dispatch_async(dispatch_get_main_queue(), ^{
             self.navigationItem.leftBarButtonItem = sender;
-            self.places = places;
+            self.places = [places subarrayWithRange:(NSRange){0, 20}];
         });
     });
     dispatch_release(downloadQueue);
