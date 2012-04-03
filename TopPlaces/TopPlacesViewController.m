@@ -8,10 +8,12 @@
 
 #import "TopPlacesViewController.h"
 #import "FlickrFetcher.h"
+#import "LastPhotosPlacesViewController.h"
 
-@interface TopPlacesViewController()
+@interface TopPlacesViewController() <LastPhotosPlacesViewControllerDelegate>
 // keys: placegrapher NSString, values: NSArray of place NSDictionary
 @property (nonatomic, strong) NSMutableArray *placesTitles;
+
 @end
 
 
@@ -94,6 +96,7 @@
     return [self placegrapherForSection:section];
 }*/
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -114,6 +117,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // GESTIONAMOS LA SELECCION DE UNA CELDA
+    if (cell.selected = YES){
+        NSLog(@"Celda seleccionada");
     }
     
     // Configure the cell...
@@ -141,7 +149,7 @@
     
     city = [placename substringWithRange:NSMakeRange(0,endCity.location)];
     
-    NSLog(@"endcityu %i",endCity.location);
+    //NSLog(@"endcityu %i",endCity.location);
     
     cell.textLabel.text = city;
     
@@ -168,6 +176,12 @@
     */
       
     return cell;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    [segue.destinationViewController setPlace:[self.places objectAtIndex:path.row]];
 }
 
 
