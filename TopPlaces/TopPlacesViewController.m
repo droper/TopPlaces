@@ -10,7 +10,7 @@
 #import "FlickrFetcher.h"
 #import "LastPhotosPlacesViewController.h"
 
-@interface TopPlacesViewController() <LastPhotosPlacesViewControllerDelegate>
+@interface TopPlacesViewController() 
 // keys: placegrapher NSString, values: NSArray of place NSDictionary
 @property (nonatomic, strong) NSMutableArray *placesTitles;
 

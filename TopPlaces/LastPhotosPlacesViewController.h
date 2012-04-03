@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-//@class LastPhotosPlacesViewController;
-
-@protocol LastPhotosPlacesViewControllerDelegate <NSObject> // added <NSObject> after lecture so we can do respondsToSelector: on the delegate
-
-@end
-
 
 @interface LastPhotosPlacesViewController : UITableViewController
 
@@ -22,7 +16,6 @@
 @property (nonatomic, strong) NSDictionary *place;
 
 
-@property (nonatomic, weak) id <LastPhotosPlacesViewControllerDelegate> delegate;
 
 
 @end

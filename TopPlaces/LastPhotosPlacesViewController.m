@@ -109,8 +109,16 @@
     // Configure the cell...
     NSDictionary *photo = [self.photos objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_TITLE];
-    cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_OWNER];
+    if (![[photo objectForKey:FLICKR_PHOTO_TITLE] isEqualToString:@""]) {
+        cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_TITLE];
+    } else if (![[photo objectForKey:FLICKR_PHOTO_DESCRIPTION] isEqualToString:@""]) {
+        cell.textLabel.text = [photo objectForKey:FLICKR_PHOTO_DESCRIPTION];
+    } else {
+        cell.textLabel.text = @"Unknown";
+    }
+    
+    
+    cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_DESCRIPTION];
     
     return cell;
 }

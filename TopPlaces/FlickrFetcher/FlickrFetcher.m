@@ -34,7 +34,7 @@
 + (NSArray *)topPlaces
 {
     NSString *request = [NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.places.getTopPlacesList&place_type_id=7"];
-    NSLog(@"Arrreglo de topPlaces %@", [[self executeFlickrFetch:request] valueForKeyPath:@"places.place"]);
+    //NSLog(@"Arrreglo de topPlaces %@", [[self executeFlickrFetch:request] valueForKeyPath:@"places.place"]);
     return [[self executeFlickrFetch:request] valueForKeyPath:@"places.place"];
 }
 
@@ -43,6 +43,7 @@
     NSString *placeId = [place objectForKey:FLICKR_PLACE_ID];
     if (placeId) {
         NSString *request = [NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.photos.search&has_geo=1&place_id=%@&per_page=%d&extras=original_format,tags,description,geo,date_upload,owner_name,place_url", placeId, maxResults];
+        NSLog(@"Arrreglo de photosInPlace %@", [[self executeFlickrFetch:request] valueForKeyPath:@"photos.photo"]);
         return [[self executeFlickrFetch:request] valueForKeyPath:@"photos.photo"];
     }
     return nil;
