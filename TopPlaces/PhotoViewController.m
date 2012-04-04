@@ -70,13 +70,23 @@
 {
     CGRect zoomRect;
     //zoomRect.size.height = self.imageView.image.size.height;
-    if (self.imageView.image.size.width >= self.imageView.image.size.height)
-    {
-        zoomRect.size.height = self.imageView.image.size.height;
-    } else {
-        zoomRect.size.height = self.imageView.image.size.width;
-    }
     
+    if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
+    {
+        if (self.imageView.image.size.width >= self.imageView.image.size.height)
+        {
+            zoomRect.size.height = self.imageView.image.size.height;
+        } else {
+            zoomRect.size.width = self.imageView.image.size.width;
+        }
+    } else {
+        if (self.imageView.image.size.width >= self.imageView.image.size.height)
+        {
+            zoomRect.size.width = self.imageView.image.size.width;
+        } else {
+            zoomRect.size.height = self.imageView.image.size.height;
+        }
+    }
     
     //zoomRect.origin.x = 0;
     //zoomRect.origin.y = 0; 
@@ -97,11 +107,11 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
+   // if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+    //    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+   // } else {
         return YES;
-    }
+    //}
 }
 
 - (void)viewDidUnload
