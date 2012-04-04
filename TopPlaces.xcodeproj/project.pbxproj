@@ -102,13 +102,13 @@
 				EB7DCE7E1515DC9800798EB3 /* RootViewController.h */,
 				EB7DCE7F1515DC9800798EB3 /* RootViewController.m */,
 				2F8D204815091C1300B1FA35 /* TopPlacesViewController.h */,
+				2F8D204915091C1300B1FA35 /* TopPlacesViewController.m */,
 				2F8C9E0115211C8D00D73418 /* RecentPlacesViewController.h */,
 				2F8C9E0215211C8D00D73418 /* RecentPlacesViewController.m */,
 				2FCCE3CF152A7CDC00C44525 /* LastPhotosPlacesViewController.h */,
 				2FCCE3D0152A7CDC00C44525 /* LastPhotosPlacesViewController.m */,
 				2FB845E5152BBB8600EE89FE /* PhotoViewController.h */,
 				2FB845E6152BBB8600EE89FE /* PhotoViewController.m */,
-				2F8D204915091C1300B1FA35 /* TopPlacesViewController.m */,
 				2F8D203715091C1300B1FA35 /* Supporting Files */,
 			);
 			path = TopPlaces;
