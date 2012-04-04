@@ -128,6 +128,8 @@
 {
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
     [segue.destinationViewController setPhotoUrl:[FlickrFetcher urlForPhoto:[self.photos objectAtIndex:path.row] format:FlickrPhotoFormatLarge]];
+    [segue.destinationViewController setPhotoTitle:[[self.photos objectAtIndex:path.row] objectForKey:FLICKR_PHOTO_TITLE]];
+
 }
 
 

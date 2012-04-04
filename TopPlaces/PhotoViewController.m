@@ -22,6 +22,7 @@
 @synthesize imageView;
 @synthesize photoUrl = _photoUrl;
 @synthesize photoImage;
+@synthesize photoTitle = _photoTitle;
 
 
 - (void)setPhotoUrl:(NSURL *)photoUrl
@@ -30,6 +31,15 @@
         _photoUrl = photoUrl;
     }
 }
+
+
+- (void)setPhotoTitle:(NSString *)photoTitle
+{
+    if (_photoTitle != photoTitle) {
+        _photoTitle = photoTitle;
+    }
+}
+
 
 - (UIImage *)createPhoto:(NSURL *)photoUrl
 {
@@ -47,6 +57,7 @@
     [super viewDidLoad];
     NSLog(@"URL: %@", self.photoUrl);
     self.imageView.image = [self createPhoto:self.photoUrl];
+    self.title = self.photoTitle;
     self.scrollView.delegate = self;
     self.scrollView.contentSize = self.imageView.image.size;
     self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);

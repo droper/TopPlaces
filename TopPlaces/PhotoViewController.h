@@ -11,6 +11,7 @@
 @interface PhotoViewController : UIViewController
 
 @property (weak, nonatomic) NSURL *photoUrl;
+@property (weak, nonatomic) NSString *photoTitle;
 
 
 @end
