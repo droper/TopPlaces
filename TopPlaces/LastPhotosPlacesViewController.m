@@ -8,6 +8,7 @@
 
 #import "LastPhotosPlacesViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoViewController.h"
 
 
 @interface LastPhotosPlacesViewController ()
@@ -122,6 +123,13 @@
     
     return cell;
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    [segue.destinationViewController setPhotoUrl:[FlickrFetcher urlForPhoto:[self.photos objectAtIndex:path.row] format:FlickrPhotoFormatLarge]];
+}
+
 
 
 @end

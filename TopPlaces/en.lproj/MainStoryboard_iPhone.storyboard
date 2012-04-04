@@ -106,11 +106,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Place Photo" textLabel="k1k-zl-8lH" detailTextLabel="D2q-8n-l8p" style="IBUITableViewCellStyleSubtitle" id="OVE-Br-nDG">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Place Photo" textLabel="k1k-zl-8lH" detailTextLabel="D2q-8n-l8p" style="IBUITableViewCellStyleSubtitle" id="OVE-Br-nDG">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k1k-zl-8lH">
@@ -130,6 +130,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="MOu-8b-iJ7" kind="push" identifier="Last Photos View" id="pu7-Xe-L6P"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -147,6 +150,37 @@
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="2222" y="-683"/>
+        </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="FiU-du-yaO">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VQg-vk-Uau" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="MOu-8b-iJ7" customClass="PhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4gd-ev-9xq">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.29999999999999999" maximumZoomScale="3" id="7wJ-Eh-eTM">
+                                <rect key="frame" x="-20" y="-20" width="360" height="407"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="TopLeft" id="Uin-Lx-SGn">
+                                        <rect key="frame" x="20" y="20" width="320" height="367"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xyM-vj-WzD"/>
+                    <connections>
+                        <outlet property="imageView" destination="Uin-Lx-SGn" id="vo3-Zu-FfV"/>
+                        <outlet property="scrollView" destination="7wJ-Eh-eTM" id="btf-X0-tXh"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2724" y="42"/>
         </scene>
         <!--Navigation Controller - Recent-->
         <scene sceneID="jCg-xy-H6L">
@@ -174,11 +208,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Photo" textLabel="8aQ-2n-6h5" detailTextLabel="9K1-ja-oB2" style="IBUITableViewCellStyleSubtitle" id="bT3-uH-7wl">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Flickr Photo" textLabel="8aQ-2n-6h5" detailTextLabel="9K1-ja-oB2" style="IBUITableViewCellStyleSubtitle" id="bT3-uH-7wl">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8aQ-2n-6h5">
@@ -198,6 +232,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <connections>
+                                    <segue destination="MOu-8b-iJ7" kind="push" identifier="Recent Photos View" id="Izx-l2-NQt"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -237,23 +274,12 @@
             <point key="canvasLocation" x="1190" y="-683"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="LastPhotosPlacesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LastPhotosPlacesViewController.h"/>
-        </class>
-        <class className="RecentPlacesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RecentPlacesViewController.h"/>
-        </class>
-        <class className="RootViewController" superclassName="UITabBarController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RootViewController.h"/>
-        </class>
-        <class className="TopPlacesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/TopPlacesViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="Izx-l2-NQt"/>
+    </inferredMetricsTieBreakers>
 </document>

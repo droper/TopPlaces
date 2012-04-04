@@ -8,6 +8,7 @@
 
 #import "RecentPlacesViewController.h"
 #import "FlickrFetcher.h"
+#import "PhotoViewController.h"
 
 @interface RecentPlacesViewController()
 // keys: photographer NSString, values: NSArray of photo NSDictionary
@@ -120,6 +121,13 @@
     cell.detailTextLabel.text = [photo objectForKey:FLICKR_PHOTO_OWNER];
     
     return cell;
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    [segue.destinationViewController setPhotoUrl:[FlickrFetcher urlForPhoto:[self.photos objectAtIndex:path.row] format:FlickrPhotoFormatLarge]];
 }
 
 

@@ -19,6 +19,8 @@
 #define FLICKR_LATITUDE @"latitude"
 #define FLICKR_LONGITUDE @"longitude"
 #define FLICKR_TIMEZONE @"timezone"
+#define FLICKR_PHOTO_URL @"photourl"
+
 
 
 
