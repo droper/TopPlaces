@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) UIImage *photoImage;
 
+
 @end
 
 @implementation PhotoViewController
@@ -55,27 +56,53 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"URL: %@", self.photoUrl);
     self.imageView.image = [self createPhoto:self.photoUrl];
     self.title = self.photoTitle;
     self.scrollView.delegate = self;
     self.scrollView.contentSize = self.imageView.image.size;
     self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+    
+
+    
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    CGRect zoomRect;
+    //zoomRect.size.height = self.imageView.image.size.height;
+    if (self.imageView.image.size.width >= self.imageView.image.size.height)
+    {
+        zoomRect.size.height = self.imageView.image.size.height;
+    } else {
+        zoomRect.size.height = self.imageView.image.size.width;
+    }
+    
+    
+    //zoomRect.origin.x = 0;
+    //zoomRect.origin.y = 0; 
+
+    
+    [self.scrollView zoomToRect:zoomRect animated:YES];
+    
+}
+
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
+    NSLog(@"SIZE HEIGHT: %f",self.imageView.frame.size.height);
     return self.imageView;
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+   /* if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
     } else {
         return YES;
-    }
+    }*/
+    return YES;
 }
 
 - (void)viewDidUnload
