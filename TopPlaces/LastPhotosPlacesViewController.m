@@ -10,6 +10,8 @@
 #import "FlickrFetcher.h"
 #import "PhotoViewController.h"
 
+#define RECENT_PHOTOS_KEY @"photosId"
+
 
 @interface LastPhotosPlacesViewController ()
 
@@ -130,6 +132,43 @@
     [segue.destinationViewController setPhotoUrl:[FlickrFetcher urlForPhoto:[self.photos objectAtIndex:path.row] format:FlickrPhotoFormatLarge]];
     [segue.destinationViewController setPhotoTitle:[[self.photos objectAtIndex:path.row] objectForKey:FLICKR_PHOTO_TITLE]];
 
+    NSMutableArray *photosIds = [[NSMutableArray array] init];
+    
+    //Create an user defaults object  
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //Obtain the photo ids array from defaults
+    if ([[defaults objectForKey:RECENT_PHOTOS_KEY] mutableCopy]){
+        photosIds = [[defaults objectForKey:RECENT_PHOTOS_KEY] mutableCopy];
+    }
+    
+    
+    
+    NSLog(@"IDS: %@", photosIds);
+    
+    //Add the photo id
+    //id pid = [[self.photos objectAtIndex:path.row] objectForKey:FLICKR_PHOTO_ID];
+    
+    
+    //If not repeated, add the id to the array
+    /*if(![photosIds containsObject:pid]) {
+        [photosIds addObject:pid];
+    }*/
+    
+    //If not repeated, add the id to the array
+    //if(![photosIds containsObject:[self.photos objectAtIndex:path.row]]) {
+    [photosIds addObject:[self.photos objectAtIndex:path.row]];
+    // }
+    
+    NSLog(@"photo %@", [self.photos objectAtIndex:path.row]);
+
+    
+    NSLog(@"photosids %@", photosIds);
+    
+    //The array is copied into the defaults
+    [defaults setObject:photosIds forKey:RECENT_PHOTOS_KEY];
+    [defaults synchronize];  
+    
 }
 
 

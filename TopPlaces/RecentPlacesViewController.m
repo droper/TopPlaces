@@ -10,9 +10,14 @@
 #import "FlickrFetcher.h"
 #import "PhotoViewController.h"
 
+#define RECENT_PHOTOS_KEY @"photosId"
+
+
 @interface RecentPlacesViewController()
 // keys: photographer NSString, values: NSArray of photo NSDictionary
 @property (nonatomic, strong) NSDictionary *photosByPhotographer;
+@property (nonatomic, strong) NSMutableArray *photosIds;
+
 @end
 
 
@@ -20,13 +25,16 @@
 
 @synthesize photos = _photos;
 @synthesize photosByPhotographer = _photosByPhotographer;
+@synthesize photosIds;
 
 //cambio para probar el commit
 
 - (void)updatePhotosByPhotographer
 {
+    //NSLog(@"%@", self.photos);
     NSMutableDictionary *photosByPhotographer = [NSMutableDictionary dictionary];
     for (NSDictionary *photo in self.photos) {
+        //NSLog(@"FOTOOOOOOOOOOOOO  %@", photo);
         NSString *photographer = [photo objectForKey:FLICKR_PHOTO_OWNER];
         NSMutableArray *photos = [photosByPhotographer objectForKey:photographer];
         if (!photos) {
@@ -49,6 +57,45 @@
 }
 
 
+//Order photos by Id
+- (NSArray *)orderPhotosById
+{
+    
+    //Create an user defaults object  
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //Obtain the photo ids array from defaults
+    //self.photosIds = [[defaults objectForKey:RECENT_PHOTOS_KEY] mutableCopy];
+        
+    // If there is any photo id, initialize the array
+    //if (!self.photosIds) self.photosIds = [NSMutableArray array];
+    
+    NSMutableArray *photos = [[NSMutableArray alloc] init];
+    
+    photos = [[defaults objectForKey:RECENT_PHOTOS_KEY] mutableCopy];
+    
+    /*for (int i = 0; i < [self.photos count]; i++){
+        
+        for (int j = 0; j < [self.photosIds count]; j++){
+
+            if ([[[self.photos objectAtIndex:i] objectForKey:FLICKR_PHOTO_ID] isEqual:[self.photosIds objectAtIndex:j]])
+            {
+                [photos addObject:[self.photos objectAtIndex:i]];
+            }
+        }
+    }*/
+    
+    //NSLog(@"%@", self.photos);
+
+    //NSLog(@"%@", photos);
+    //NSLog(@"%@", self.photosIds);
+
+    NSLog(@"%@", photos);
+    
+    return photos;
+}
+
+
 - (IBAction)refresh:(id)sender
 {
     // might want to use introspection to be sure sender is UIBarButtonItem
@@ -64,6 +111,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.navigationItem.leftBarButtonItem = sender;
             self.photos = photos;
+            self.photos = [self orderPhotosById];
         });
     });
     dispatch_release(downloadQueue);
@@ -125,11 +173,46 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
+{    
     NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+    
     [segue.destinationViewController setPhotoUrl:[FlickrFetcher urlForPhoto:[self.photos objectAtIndex:path.row] format:FlickrPhotoFormatLarge]];
     [segue.destinationViewController setPhotoTitle:[[self.photos objectAtIndex:path.row] objectForKey:FLICKR_PHOTO_TITLE]];
 
+    //Create an user defaults object  
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    //Obtain the photo ids array from defaults
+   self.photosIds = [[defaults objectForKey:RECENT_PHOTOS_KEY] mutableCopy];
+
+    NSLog(@"IDS: %@", self.photosIds);
+    
+    // If there is any photo id, initialize the array
+    if (!self.photosIds) self.photosIds = [NSMutableArray array];
+    
+    //Add the photo id
+    id pid = [[self.photos objectAtIndex:path.row] objectForKey:FLICKR_PHOTO_ID];
+    
+    
+    //If not repeated, add the id to the array
+    if(![self.photosIds containsObject:pid]) {
+        [self.photosIds addObject:pid];
+    }
+    
+    NSMutableArray *temp = [[NSMutableArray alloc] init];
+    
+    //Move the items of the array to 49 from 50
+    if ([self.photos count] >= 50)
+    {
+        for (int i = 1; i < 49; i++){
+            [temp addObject:[self.photos objectAtIndex:i]];
+        }
+        self.photos = temp;
+    }
+    
+    //The array is copied into the defaults
+    [defaults setObject:self.photosIds forKey:RECENT_PHOTOS_KEY];
+    [defaults synchronize];   
 }
 
 
